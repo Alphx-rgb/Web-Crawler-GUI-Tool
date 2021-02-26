@@ -4,6 +4,9 @@ import os
 import requests
 import pyttsx3
 from urllib.parse import urljoin, urlparse  
+import Selenium
+
+
 engine=pyttsx3.init('sapi5')
 engine.setProperty("voices",'HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Speech\Voices\Tokens\TTS_MS_EN-US_DAVID_11.0')
 
@@ -45,20 +48,24 @@ def headers_links_images(url):
     f=open("links.txt","w")
     links = soup.findAll("a")
     for link in links:
-        if(link.string != None):
-            if(("http" in link.get("href")) or "htps" in link.get("href")): 
-                sr = str(link.get("href")) + "\t" + (link.string) +"\t"
-                f.write(sr + "\n")
+        if(link.get("href")!=None):
+            if(link.string != None):
+                if(("http" in link.get("href")) or "https" in link.get("href")): 
+                    sr = str(link.get("href")) + "\t" + str(link.string) +"\t"
+                    f.write(sr + "\n")
+                else:
+                    sr= url + str(link.get("href")) + "\t" + (link.string) +"\t"
+                    f.write(sr + "\n")
             else:
-                sr= url + str(link.get("href")) + "\t" + (link.string) +"\t"
-                f.write(sr + "\n")
+                if(("http" in link.get("href")) or "https" in link.get("href")):
+                    sr = str(link.get("href"))
+                    f.write(sr +"\n")
+                else:
+                    sr = url +  str(link.get("href"))
+                    f.write(sr +"\n")
         else:
-            if(("http" in link.get("href")) or "htps" in link.get("href")):
-                sr = str(link.get("href"))
-                f.write(sr)
-            else:
-                sr = url +  str(link.get("href"))
-                f.write(sr)
+            pass
+
     f.close()
     viewing_files("links")
     os.chdir(".\..")
@@ -87,6 +94,7 @@ def headers_links_images(url):
     f.close()
     viewing_files("images")    
     os.chdir(".\..")
+    client.close()
 #################### Source-Code ##########################
    #print(client.text)
     #f=open("source_code.txt","w")
@@ -96,15 +104,42 @@ def headers_links_images(url):
 
 def search(sr,url):
     client=requests.get(url)
+    soup=BeautifulSoup(client.text)
     try:
-        rsearches= soup.findAll("sr")
+        rsearches= soup.findAll(f"{sr}")
         for rsearch in rsearches:
-            print(rsearch + '\n')
+            print(str(rsearch))
     except:
         print("Not found")
         engine.say("Not found, try again...")
         engine.runAndWait()
 
+####################SCREEN-SHOTS##########################
+def ss(url):
+    client=requests.get(url)
+    soup = BeautifulSoup(client.text)
+    try:
+        os.mkdir("Screen-Shots")
+        os.chdir("Screen-Shots")
+    except:
+        os.chdir("Screen-Shots")
+    engine.say("Taking and saving screenshots of webpages ....")
+    engine.runAndWait()
+    links = soup.findAll("a")
+    Selenium.urll(url,"Website")
+    for link in links:
+        if(link.string != None):
+            if(("http" in link.get("href")) or "htps" in link.get("href")): 
+                Selenium.urll(link.get("href"),link.string)
+            else:
+                Selenium.urll(url + str(link.get("href")),link.string)   
+        else:
+            '''if(("http" in link.get("href")) or "htps" in link.get("href")): 
+                Selenium.urll(link.get("href"),"")
+            else:
+                Selenium.urll(url + str(link.get("href")),"")   '''
+            pass
+    os.chdir(".\..")
 
 
 
@@ -114,21 +149,23 @@ def search(sr,url):
 
 
 
-url=input("Enter the url:")
+
+url=input("Enter the url:(In the form like:wwwe.google.com or https://www.google.com)")
 if(is_valid(url)):
     ext=tldextract.extract(url)
     engine.say(f"You have entered:{ext.domain}.{ext.suffix}")
     engine.runAndWait()
     headers_links_images(url)
+    ss(url)
     engine.say("Want to enter any attribute to search for in the source code ....")
     engine.runAndWait()
     if(input("y/n:") == "y"):
         atb=input("Enter attribute:")  #atb ==> attribute
+        print(atb , "asd")
         search(atb,url)
-    else:
-        print("Thank you")
-        engine.say("Thank You")
-        engine.runAndWait()
+    print("Thank you")
+    engine.say("Thank You")
+    engine.runAndWait()
 
 
 
