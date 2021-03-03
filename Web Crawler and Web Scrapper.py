@@ -119,12 +119,13 @@ try:
 except:
     pass
 engine.say("Getting links,images and screenshots of the given website....Please Wait")
-print("Getting links,images and screenshots of the given website....Please Wait")
+print("Getting links,images and screenshots....Please Wait")
 engine.runAndWait()
 while(depth!=l):
     l+=1
     lst=link(lst,"a","href","links")
     lst1=link(lst1,"img","src","images")
 
-print(os.getcwd())
-
+engine.say("Work Completed")
+engine.runAndWait()
+print("Work Completed....")
