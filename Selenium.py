@@ -11,7 +11,6 @@ def urll(website,urls,strng,c):
     
     for Url,name  in zip(urls,strng): #use itertools.izip()
         try:
-            print("in try, yipeeeeee",c,name,Url)
             if("http" in Url or "https" in Url or ".com" in Url):
                 driver.get(Url)
             elif("/" in Url):
