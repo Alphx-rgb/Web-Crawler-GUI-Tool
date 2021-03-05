@@ -7,6 +7,7 @@ import pyttsx3
 engine=pyttsx3.init('sapi5')
 engine.setProperty("voices",'HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Speech\Voices\Tokens\TTS_MS_EN-US_DAVID_11.0')
 import Selenium 
+import email_address
 ####################################################################################################################################
 c=""
 def start(url): 
@@ -125,6 +126,10 @@ while(depth!=l):
     l+=1
     lst=link(lst,"a","href","links")
     lst1=link(lst1,"img","src","images")
+print("Collecting Emails (if any) available on the website:")
+engine.say("Collecting Emails")
+engine.runAndWait()
+email_address.mails(url)
 
 engine.say("Work Completed")
 engine.runAndWait()
