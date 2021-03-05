@@ -59,7 +59,7 @@ def link(lst,tag,attribute,file_name):
     global c
     global url
     a=list()
-    a=[]  
+    a=[] 
     if(lst != [] or lst == None):
         for element in lst:
             try:
@@ -68,12 +68,12 @@ def link(lst,tag,attribute,file_name):
                 links = soup1.findAll(tag)
                 for link in links:
                     a.append(link.get(attribute))
-                    #if(tag=="a"):    #uncomment this for getting screenshots of links founded in depth2 search
+                    #if(tag=="a"):
                         #strngs.append(link.string)
             except:
                 continue
         saving_files(a,file_name)
-        #Selenium.urll(url,a,strngs,c)  #uncomment this for getting screenshots of links founded in depth2 search
+        #Selenium.urll(url,a,strngs,c)
         return(a)               
     else:
         links = soup.findAll(tag) 
@@ -92,7 +92,7 @@ def link(lst,tag,attribute,file_name):
 
 
 
-url=input("Enter the url:")
+url=input("Enter the url(in form like http://www.google.com):")
 depth=int(input("Enter Depth:"))
 start(url)
 client=requests.get(url)
@@ -120,17 +120,16 @@ try:
 except:
     pass
 engine.say("Getting links,images and screenshots of the given website....Please Wait")
-print("Getting links,images and screenshots....Please Wait")
+print("Getting links,images and screenshots of the given website....Please Wait")
 engine.runAndWait()
 while(depth!=l):
     l+=1
     lst=link(lst,"a","href","links")
     lst1=link(lst1,"img","src","images")
+
+    #creating_saving_files(lst,"links")
 print("Collecting Emails (if any) available on the website:")
 engine.say("Collecting Emails")
 engine.runAndWait()
 email_address.mails(url)
-
-engine.say("Work Completed")
-engine.runAndWait()
-print("Work Completed....")
+print(os.getcwd())
