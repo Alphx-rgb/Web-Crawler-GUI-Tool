@@ -15,7 +15,7 @@ def urll(website,urls,strng,c):
             print(k,".",name + ".....")
         else:
             name = Url
-            print(k,".",name + ".....")
+            print(k,".",name , ".....")
         if(keyboard.is_pressed('q')):
             break
         try:
@@ -28,11 +28,10 @@ def urll(website,urls,strng,c):
                 driver.get(website + "/" + Url)
             driver.maximize_window()
             sleep(2)
-            driver.get_screenshot_as_file(r"C:\\Users\\HP\\Desktop\\Alphx project\\" + c + "\\Screen-Shots\\" + name +".png")
+            driver.save_screenshot("C:\\Users\\HP\\Desktop\\Alphx-project\\project-23thmarch\\Web-Crawler-main\\" + c + "\\Screen-Shots\\" + name +".png")
         except:
             continue
         k+=1
     driver.close()
             
-
 
