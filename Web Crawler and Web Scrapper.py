@@ -3,9 +3,7 @@ import tldextract
 from bs4 import BeautifulSoup
 import os
 import requests
-import pyttsx3
-engine=pyttsx3.init('sapi5')
-engine.setProperty("voices",'HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Speech\Voices\Tokens\TTS_MS_EN-US_DAVID_11.0')
+import threading
 import Selenium 
 import email_address
 ####################################################################################################################################
@@ -18,8 +16,6 @@ def start(url):
         os.chdir(ext.domain)
     except:
         os.chdir(ext.domain)
-    engine.say(f"You have entered {ext.domain} with depth search of {depth} ......")
-    engine.runAndWait()
     c=ext.domain
 def folder_making(sr):
         try:
@@ -42,9 +38,7 @@ def creating_saving_files(lst,strng):
 def saving_files(lst,strng):
     os.chdir(f".\{strng}")
     f=open(f"{strng}_{l}.txt","a")
-    #print(lst)
     for element in lst:
-        #print(element)
         if(element == None):
             continue
         elif("http" in str(element) or "https" in str(element)):
@@ -60,49 +54,50 @@ def link(lst,tag,attribute,file_name):
     global url
     a=list()
     a=[] 
-    if(lst != [] or lst == None):
+    if(lst != [] and lst != None and tag != "img"):
         for element in lst:
             try:
                 client1=requests.get(element)
                 soup1=BeautifulSoup(client1.text)
                 links = soup1.findAll(tag)
                 for link in links:
-                    a.append(link.get(attribute))
-                    #if(tag=="a"):
-                        #strngs.append(link.string)
+                    if(link.get(attribute) not in a):
+                        a.append(link.get(attribute))
+                        #if(tag=="a"):
+                            #strngs.append(link.string)
             except:
                 continue
         saving_files(a,file_name)
         #Selenium.urll(url,a,strngs,c)
         return(a)               
-    else:
+    elif(l==1):
         links = soup.findAll(tag) 
         lst=[]      #to convert none type to empty list
         for link in links:
-            lst.append(link.get(attribute))
-            if(tag=="a"):
-                strngs.append(link.string)
+            if(link.get(attribute) not in lst):
+                lst.append(link.get(attribute))
+                if(tag=="a"):
+                    strngs.append(link.string)
         if(tag=="a"):
             Selenium.urll(url,lst,strngs,c)
         creating_saving_files(lst,file_name)
         return(lst)
-
-
-
+    else:
+        print("No %s found"%(file_name))
 
 
 
 url=input("Enter the url(in form like http://www.google.com):")
 depth=int(input("Enter Depth:"))
 start(url)
-client=requests.get(url)
+burp0_headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.90 Safari/537.36"}
+client=requests.get(url,headers=burp0_headers)
 soup=BeautifulSoup(client.text)
 lst=list()
 lst1=list()
 strngs=list() #to store "link.string" to name screenshots
 l=0
 
-engine.say("Collecting Headers.....")
 print("Collecting Headers.....")
 try:
     os.mkdir(".\Headers")
@@ -114,22 +109,21 @@ with open("Headers.txt","w") as f:
 
 f.close()
 os.chdir(".\..")    
-engine.runAndWait()
+
 try:
     os.mkdir(".\Screen-Shots")
 except:
     pass
-engine.say("Getting links,images and screenshots of the given website....Please Wait")
+
 print("Getting links,images and screenshots of the given website....Please Wait")
-engine.runAndWait()
+
 while(depth!=l):
     l+=1
     lst=link(lst,"a","href","links")
     lst1=link(lst1,"img","src","images")
 
-    #creating_saving_files(lst,"links")
+
 print("Collecting Emails (if any) available on the website:")
-engine.say("Collecting Emails")
-engine.runAndWait()
 email_address.mails(url)
 print(os.getcwd())
+
