@@ -9,3 +9,4 @@ def mails(url):
     f=open("mails.txt","w")
     for match in matches:
         f.write(match + "\n")
+        
