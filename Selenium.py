@@ -8,6 +8,7 @@ import keyboard
 k=1                                  
 def urll(website,urls,strng,c):
     global k
+    
     driver=webdriver.Chrome(executable_path=r"D:\Dhanbad\chromedriver.exe")
     
     for Url,name  in zip(urls,strng): #use itertools.izip()
@@ -18,20 +19,19 @@ def urll(website,urls,strng,c):
             print(k,".",name , ".....")
         if(keyboard.is_pressed('q')):
             break
-        try:
-            #print("in try",c,name,Url)
-            if("http" in Url or "https" in Url or ".com" in Url):
-                driver.get(Url)
-            elif("/" in Url):
-                driver.get(website + Url)
-            else:
-                driver.get(website + "/" + Url)
-            driver.maximize_window()
-            sleep(2)
-            driver.save_screenshot("C:\\Users\\HP\\Desktop\\Alphx-project\\project-23thmarch\\Web-Crawler-main\\" + c + "\\Screen-Shots\\" + name +".png")
-        except:
-            continue
+        if("http" in Url or "https" in Url or ".com" in Url):
+            driver.get(Url)
+        elif("/" in Url):
+            driver.get(website + Url)
+        else:
+            driver.get(website + "/" + Url)
+        driver.maximize_window()
+        sleep(2)
+        if("." not in name):
+            driver.save_screenshot(os.getcwd() + "\\Screen-Shots\\" + name + str(k) +"_ss.png")
+        else:
+            driver.save_screenshot(os.getcwd()+"\\Screen-Shots\\" + (name.split("."))[1] + "_" + str(k) +"_ss.png")
+        print("Next...")
         k+=1
     driver.close()
             
-
