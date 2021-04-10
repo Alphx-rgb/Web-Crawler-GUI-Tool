@@ -180,7 +180,7 @@ if(f.read() == ''):
 
 if("-h" in sys.argv or "head" in sys.argv):
     f=open(os.getcwd()+"\\Headers\\Headers.txt","r")
-    cprint("Images","green")
+    cprint("Headers","green")
     print(f.read())
     f.close()
 if("-img" in sys.argv or "images" in sys.argv):
