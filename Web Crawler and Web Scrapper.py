@@ -8,6 +8,7 @@ import email_address
 import dynamic_websites
 import sys
 from termcolor import cprint
+import man_page
 #####################################################################################################################################################################
 c=""
 def start(url): 
@@ -120,7 +121,9 @@ if("-help" in sys.argv ):
     print("=",end=" ")
     cprint("for help","cyan")
     sys.exit()
-
+if("man" in sys.argv):
+    man_page.man_page()
+    sys.exit()
 url=sys.argv[(sys.argv).index("-url")+1]
 if(len(sys.argv)>=3):
     depth=int(sys.argv[(sys.argv).index("-depth")+1])
