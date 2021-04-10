@@ -7,6 +7,7 @@ import Selenium
 import email_address
 import dynamic_websites
 import sys
+from termcolor import cprint
 #####################################################################################################################################################################
 c=""
 def start(url): 
@@ -86,24 +87,43 @@ def link(lst,tag,attribute,file_name):
         creating_saving_files(lst,file_name)
         return(lst)
     else:
-        print("No %s found"%(file_name))
+        cprint("No %s found"%(file_name),"red")
 
 
 
 
 
 if("-help" in sys.argv ):
-    print(""" 
-    A CLI tool for web crawling  and scrapping. Use following flags as needed:
-    -h or head     = for printing headers to stdout
-    -img or images = for printing images to stdout
-    -l or link     = for printing links to stdout
-    -m or mails    = for printing mails to stdout
-    """)
+    cprint("A CLI tool for web crawling  and scrapping. Use following flags as needed:","red")
+    print("Usage:",end=" ")
+    print("WCSC.py [-l] [-d]")
+    cprint("\t-url","green",end="          ")
+    print("=",end=" ")
+    cprint("URL of website to Scrap","cyan")
+    cprint("\t-depth","green",end="          ")
+    print("=",end=" ")
+    cprint("for entering depth value while scrapping","cyan")
+    print("Optional Flags:")
+    cprint("\t-h or head","green",end="     ")
+    print("=",end=" ")
+    cprint("for printing headers to stdout","cyan")
+    cprint("\t-img or images","green",end=" ")
+    print("=",end=" ")
+    cprint("for printing images to stdout","cyan")
+    cprint("\t-l or link","green",end="     ")
+    print("=",end=" ")
+    cprint("for printing links to stdout","cyan")
+    cprint("\t-m or mails","green",end="    ")
+    print("=",end=" ")
+    cprint("for printing mails to stdout","cyan")
+    cprint("\t-help","green",end="          ")
+    print("=",end=" ")
+    cprint("for help","cyan")
     sys.exit()
-url=sys.argv[1] 
+
+url=sys.argv[(sys.argv).index("-url")+1]
 if(len(sys.argv)>=3):
-    depth=int(sys.argv[2])
+    depth=int(sys.argv[(sys.argv).index("-depth")+1])
 else:
     depth=1
    
@@ -116,7 +136,7 @@ lst1=list()
 strngs=list() #to store "link.string" to name screenshots
 l=0
 
-print("Collecting Headers.....")
+cprint("Collecting Headers.....","yellow",attrs=["bold","blink"])
 try:
     os.mkdir(".\Headers")
     os.chdir(".\Headers")
@@ -131,7 +151,7 @@ try:
     os.mkdir(".\Screen-Shots")
 except:
     pass
-print("Getting links,images and screenshots of the given website....Please Wait")
+cprint("Getting links,images and screenshots of the given website....Please Wait","yellow",attrs=["reverse","blink"])
 while(depth!=l):
     l+=1
     lst=link(lst,"a","href","links")
@@ -141,14 +161,14 @@ while(depth!=l):
 
 
 
-print("Collecting Emails (if any) available on the website:")
+cprint("Collecting Emails (if any) available on the website","yellow")
 email_address.mails(url)
-print(os.getcwd()) 
+#print(os.getcwd()) #C:\Users\HP\Desktop\Alphx-Project\project-23thmarch\Web-Crawler-main\stackoverflow
 
 
 f=open("./links/links_1.txt","r")
 lst=[]
-print("##################")
+cprint("#######################","red")
 if(f.read() == ''):
     f.close()
     for i in range(1,depth+1):
@@ -157,19 +177,22 @@ if(f.read() == ''):
 
 if("-h" in sys.argv or "head" in sys.argv):
     f=open(os.getcwd()+"\\Headers\\Headers.txt","r")
+    cprint("Images","green")
     print(f.read())
     f.close()
 if("-img" in sys.argv or "images" in sys.argv):
     f=open(os.getcwd()+"\\images\\images_1.txt","r")
+    cprint("Images","blue")
     print(f.read())
     f.close()
 if("-l" in sys.argv or "link" in sys.argv):
     for k in range(1,depth+1):
-        print("links-" + k)
+        cprint("links-" + str(k),"green")
         f=open(os.getcwd()+f"\\links\\links_{k}.txt","r")
         print(f.read())
         f.close()
 if("-m" in sys.argv or "mails" in sys.argv):
     f=open("mails.txt","r")
+    cprint("Mails:","blue")
     print(f.read())
     f.close()
