@@ -5,6 +5,7 @@ from selenium.webdriver.common.keys import Keys
 import itertools
 from time import sleep
 import keyboard
+from termcolor import cprint
 k=1                                  
 def urll(website,urls,strng,c):
     global k
@@ -13,10 +14,16 @@ def urll(website,urls,strng,c):
     
     for Url,name  in zip(urls,strng): #use itertools.izip()
         if(name!=None):
-            print(k,".",name + ".....")
+            cprint(k,"green",end="")
+            print(".",end="")
+            cprint(name,"cyan",end="")
+            print(".....")
         else:
             name = Url
-            print(k,".",name , ".....")
+            cprint(k,"green",end="")
+            print(".",end="")
+            cprint(name,"cyan",end="")
+            print(".....")
         if(keyboard.is_pressed('q')):
             break
         if("http" in Url or "https" in Url or ".com" in Url):
@@ -34,4 +41,4 @@ def urll(website,urls,strng,c):
         print("Next...")
         k+=1
     driver.close()
-            
+ 
