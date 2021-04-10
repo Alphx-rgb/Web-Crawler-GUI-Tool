@@ -26,19 +26,23 @@ def urll(website,urls,strng,c):
             print(".....")
         if(keyboard.is_pressed('q')):
             break
-        if("http" in Url or "https" in Url or ".com" in Url):
-            driver.get(Url)
-        elif("/" in Url):
-            driver.get(website + Url)
-        else:
-            driver.get(website + "/" + Url)
-        driver.maximize_window()
-        sleep(2)
-        if("." not in name):
-            driver.save_screenshot(os.getcwd() + "\\Screen-Shots\\" + name + str(k) +"_ss.png")
-        else:
-            driver.save_screenshot(os.getcwd()+"\\Screen-Shots\\" + (name.split("."))[1] + "_" + str(k) +"_ss.png")
-        print("Next...")
+        try:
+            if("http" in Url or "https" in Url or ".com" in Url):
+                driver.get(Url)
+            elif("/" in Url):
+                driver.get(website + Url)
+            else:
+                driver.get(website + "/" + Url)
+            driver.maximize_window()
+            sleep(2)
+            if("." not in name):
+                driver.save_screenshot(os.getcwd() + "\\Screen-Shots\\" + name + str(k) +"_ss.png")
+            else:
+                driver.save_screenshot(os.getcwd()+"\\Screen-Shots\\" + (name.split("."))[1] + "_" + str(k) +"_ss.png")
+            print("Next...")
+        except:
+            pass
+            
         k+=1
     driver.close()
  
