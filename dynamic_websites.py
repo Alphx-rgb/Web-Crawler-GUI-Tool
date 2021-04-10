@@ -5,6 +5,7 @@ from bs4 import BeautifulSoup
 import time
 import keyboard
 import os
+from termcolor import cprint
 #def start(url):
 
 
@@ -21,7 +22,7 @@ def fun(urls,dir_name):
         try:
             driver.get(element)
             driver.maximize_window()
-            print(os.getcwd(),"%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
+            #print(os.getcwd(),"%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
             driver.save_screenshot(os.getcwd() + "\\Screen-Shots\\" + str(name_of_ss) + "_ss.png")
             driver.close()
         except:
@@ -37,9 +38,10 @@ def get(url,lst,depth,tag,attribute,c,name_file,k):
         driver.get(url)
         elem = driver.find_elements_by_tag_name(tag)
         for lnk in elem:
-            if(lnk.get_attribute(attribute) not in lst):
-                    f.write(lnk.get_attribute(attribute)+"\n")
-                    lst.append(lnk.get_attribute(attribute))
+            if(lnk.get_attribute(attribute) != None and lnk.get_attribute(attribute)  != ""):
+                if(lnk.get_attribute(attribute) not in lst):
+                        f.write(lnk.get_attribute(attribute)+"\n")
+                        lst.append(lnk.get_attribute(attribute))
         f.close()
         driver.close()
         if(tag=="a"):
