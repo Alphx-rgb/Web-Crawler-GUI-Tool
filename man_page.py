@@ -28,6 +28,12 @@ def man_page():
     cprint("    -m or mails","cyan",end="    ")
     print("=",end=" ")
     print("for printing mails to stdout")
+    cprint("    -sD","cyan",end="            ")
+    print("=",end=" ")
+    print("for printing subdomains founded of the given website to stdout")
+    cprint("    -sf","cyan",end="            ")
+    print("=",end=" ")
+    print("for printing links with different suffixes of the given website to stdout")
     cprint("    -help","cyan",end="          ")
     print("=",end=" ")
     print("for help")
@@ -46,3 +52,4 @@ def man_page():
     print(",who can we reached by",end="")
     cprint(" ayushbudhiraja795@gmail.com","cyan")
     
+
