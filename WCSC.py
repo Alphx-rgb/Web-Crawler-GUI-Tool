@@ -9,6 +9,7 @@ import dynamic_websites
 import sys
 from termcolor import cprint
 import man_page
+import subdomain_suffix_finder
 #####################################################################################################################################################################
 c=""
 def start(url): 
@@ -117,13 +118,21 @@ if("-help" in sys.argv ):
     cprint("\t-m or mails","green",end="    ")
     print("=",end=" ")
     cprint("for printing mails to stdout","cyan")
+    cprint("\t-sD","green",end="            ")
+    print("=",end=" ")
+    cprint("for sub-domains","cyan")
+    cprint("\t-sf","green",end="            ")
+    print("=",end=" ")
+    cprint("for suffixes","cyan")
     cprint("\t-help","green",end="          ")
     print("=",end=" ")
     cprint("for help","cyan")
+    
     sys.exit()
 if("man" in sys.argv):
     man_page.man_page()
     sys.exit()
+
 url=sys.argv[(sys.argv).index("-url")+1]
 if(len(sys.argv)>=3):
     depth=int(sys.argv[(sys.argv).index("-depth")+1])
@@ -177,6 +186,12 @@ if(f.read() == ''):
     for i in range(1,depth+1):
         lst=dynamic_websites.get(url,lst,depth,"a","href",c,"links",i)
         lst1=dynamic_websites.get(url,lst1,1,"img","src",c,"images",i)
+if("-sD" not in sys.argv or "-sf" not in sys.argv):
+    ans=input("Collect Subdomains and suffixes using wordlist?(y/n):")
+else:
+    ans="a"
+if(ans=="Y" or ans=="y" or "-sD" in sys.argv or "-sf" in sys.argv):
+    subdomain_suffix_finder.suffix_subdomain(url)
 
 if("-h" in sys.argv or "head" in sys.argv):
     f=open(os.getcwd()+"\\Headers\\Headers.txt","r")
@@ -199,3 +214,14 @@ if("-m" in sys.argv or "mails" in sys.argv):
     cprint("Mails:","blue")
     print(f.read())
     f.close()
+if("-sD" in sys.argv):
+    cprint("Founded Subdomains: ","blue")
+    f=open("./Subdomains_founded/subdomains.txt","r")
+    print(f.read())
+    f.close()
+if("-sf" in sys.argv):
+    cprint("Founded Suffix: ","green")
+    f=open("./Suffix_founded/links_with_changed_suffix.txt","r")
+    print(f.read())
+    f.close()
+
