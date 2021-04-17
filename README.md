@@ -27,6 +27,7 @@ Project of WOC
 #Steps to follow:
  -clone the repo to the desired repository by following commands
  > git clone https://github.com/Alphx-rgb/Web-Crawler.git
+ > 
  -Extract the wordlist.zip in the same directory as the rest of program files.
  -Now run the command on the terminal as shown above
  
