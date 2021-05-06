@@ -37,6 +37,9 @@ def man_page():
     cprint("    -help","cyan",end="          ")
     print("=",end=" ")
     print("for help")
+    cprint("    -no ss","cyan",end="         ")
+    print("=",end=" ")
+    print("for only taking links,images,headers,mails and not screenshots")
     cprint("EXAMPLES","cyan")
     print("     The following command will print links of websites founded on website to console output")
     cprint("             WCSC.py -url 'url' -depth 'depth' -l","cyan")
@@ -53,3 +56,18 @@ def man_page():
     cprint(" ayushbudhiraja795@gmail.com","cyan")
     
 
+        
+if(__name__ == "__main__"):
+    man_page()
+
+
+import tkinter as tk
+def man_page_start():
+    root1=tk.Tk()
+    f=open(r"C:\Users\HP\Desktop\WSCS\Web-Crawler-main\man_page_content.txt","r")
+    textt = tk.StringVar()
+    label=tk.Label(root1, textvariable=textt,relief=tk.RAISED)
+    textt.set(f.read())
+    label.pack()
+    root1.mainloop()
+    f.close()
