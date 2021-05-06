@@ -7,12 +7,22 @@ from time import sleep
 import keyboard
 from termcolor import cprint
 k=1                                  
-def urll(website,urls,strng,c):
+def urll(website,urls,strng,c,keywords_of_ss):
     global k
     
+    urlss=[]
+    strngss=[]
     driver=webdriver.Chrome(executable_path=r"D:\Dhanbad\chromedriver.exe")
-    
-    for Url,name  in zip(urls,strng): #use itertools.izip()
+    for element in keywords_of_ss:
+        for element2,name in zip(urls,strng):
+            try:
+                if(element in element2):
+                    urlss.append(element2)
+                    strngss.append(name)
+            except:
+                pass
+
+    for Url,name  in zip(urlss,strngss): #use itertools.izip()
         if(name!=None):
             cprint(k,"green",end="")
             print(".",end="")
